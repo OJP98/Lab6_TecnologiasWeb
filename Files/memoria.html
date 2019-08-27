@@ -1,5 +1,5 @@
 <!-- UNIVERSIDAD DEL VALLE DE GUATEMALA
-     PROGRAMACIÓN AVANZADA DE VIDEOJUEGOS
+     SISTEMAS Y TECNOLOGÍAS WEB
      LABORATORIO #6 - REACT.JS
 
      OSCAR JUÁREZ - 17315
@@ -21,10 +21,29 @@
 
     <script type="text/babel">
 
-        class Game extends React.Component { render() { return
-        <h1>Hello react</h1>
-        } } ReactDOM.render(
+        class Card extends React.Component { constructor(props) { super(props) this.state = { } console.log(this.props.card); } clicked(){ this.props.click(this.props.card.name); } render() { const style = { background: 'rgb(9,9,121)', background: 'linear-gradient(312deg,
+        rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%', width: '100px', height: '140px', margin: '15px', display: 'flex', alignSelf: 'center', justifySelf: 'center', border: 'solid 4px black', borderRadius: '15px' } return
+        <div style={style} /> } } class Game extends React.Component { constructor(props) { super(props) this.state = { cards: [], } this.start(); } shuffle(array) { let currentIndex = array.length; let valorTemporal; let randomIndex; while (0 !== currentIndex) { randomIndex
+        = Math.floor(Math.random() * currentIndex); currentIndex -= 1; valorTemporal = array[currentIndex]; array[currentIndex] = array[randomIndex]; array[randomIndex] = valorTemporal; } return array; } start(){ const mobs = ['steve', 'pig', 'ghast',
+        'chicken', 'enderman']; let id = 0; let index = 0; mobs.forEach(card => { let carta = { id: id, name: card, guessed: false, index: index, clicked: false, } let cartaClone = { id: id, name: card, guessed: false, index: index + 1, clicked: false,
+        } id++; index += 2; this.state.cards.push(carta, cartaClone); }); this.state.cards = this.shuffle(this.state.cards); } handleClick(cardName){ console.log(cardName); } render(){ const style = { backgroundColor: 'white', width: '600px', height:
+        '800px', position: 'relative', display: 'grid', gridTemplateColumns: '20% 20% 20% 20% 20%', gridTemplateRows: '20% 20% 20% 20% 20%' } return(
+        <div style={style}>
+            <Card key="1" card={this.state.cards[0]} click={()=>this.handleClick(card.name)}/>
+                <Card key="2" card={this.state.cards[1]} />
+                <Card key="3" card={this.state.cards[2]} />
+                <Card key="4" card={this.state.cards[3]} />
+                <Card key="5" card={this.state.cards[4]} />
+                <Card key="6" card={this.state.cards[5]} />
+                <Card key="7" card={this.state.cards[6]} />
+                <Card key="8" card={this.state.cards[7]} />
+                <Card key="9" card={this.state.cards[8]} />
+                <Card key="10" card={this.state.cards[9] }/>
+
+        </div>
+        ) } } ReactDOM.render(
         <Game />, document.getElementById('root') )
+
     </script>
 </body>
 
