@@ -14,6 +14,9 @@
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
@@ -21,28 +24,40 @@
 
     <script type="text/babel">
 
-        class Card extends React.Component { constructor(props) { super(props) this.state = { } console.log(this.props.card); } clicked(){ this.props.click(this.props.card.name); } render() { const style = { background: 'rgb(9,9,121)', background: 'linear-gradient(312deg,
-        rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%', width: '100px', height: '140px', margin: '15px', display: 'flex', alignSelf: 'center', justifySelf: 'center', border: 'solid 4px black', borderRadius: '15px' } return
-        <div style={style} /> } } class Game extends React.Component { constructor(props) { super(props) this.state = { cards: [], } this.start(); } shuffle(array) { let currentIndex = array.length; let valorTemporal; let randomIndex; while (0 !== currentIndex) { randomIndex
-        = Math.floor(Math.random() * currentIndex); currentIndex -= 1; valorTemporal = array[currentIndex]; array[currentIndex] = array[randomIndex]; array[randomIndex] = valorTemporal; } return array; } start(){ const mobs = ['steve', 'pig', 'ghast',
-        'chicken', 'enderman']; let id = 0; let index = 0; mobs.forEach(card => { let carta = { id: id, name: card, guessed: false, index: index, clicked: false, } let cartaClone = { id: id, name: card, guessed: false, index: index + 1, clicked: false,
-        } id++; index += 2; this.state.cards.push(carta, cartaClone); }); this.state.cards = this.shuffle(this.state.cards); } handleClick(cardName){ console.log(cardName); } render(){ const style = { backgroundColor: 'white', width: '600px', height:
-        '800px', position: 'relative', display: 'grid', gridTemplateColumns: '20% 20% 20% 20% 20%', gridTemplateRows: '20% 20% 20% 20% 20%' } return(
-        <div style={style}>
-            <Card key="1" card={this.state.cards[0]} click={()=>this.handleClick(card.name)}/>
-                <Card key="2" card={this.state.cards[1]} />
-                <Card key="3" card={this.state.cards[2]} />
-                <Card key="4" card={this.state.cards[3]} />
-                <Card key="5" card={this.state.cards[4]} />
-                <Card key="6" card={this.state.cards[5]} />
-                <Card key="7" card={this.state.cards[6]} />
-                <Card key="8" card={this.state.cards[7]} />
-                <Card key="9" card={this.state.cards[8]} />
-                <Card key="10" card={this.state.cards[9] }/>
+        let guessedCards = []; let movimientos = 0; let voltear = false; let selectedCards = 0; class Card extends React.Component { constructor(props) { super(props) this.state = { side: "back", style: {}, } console.log(this.props.card); } clicked(card){ if
+        (selectedCards
+        < 2) { selectedCards +=1 ; if (!this.props.card.guessed) { this.setState({ side: "front" }) this.props.click(card); } setTimeout(()=> { if(!this.props.card.guessed) { this.setState({ side: "back" }) } }, 4000); } } render() { if (this.state.side == "back") { this.state.style ={ background: 'linear-gradient(312deg, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%', width: '100px',
+            height: '140px', margin: '15px', display: 'flex', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', justifySelf: 'center', border: 'solid 4px black', borderRadius: '15px', fontSize: '50px', lineHeight: '120px', cursor: 'pointer',
+            color: 'white', content: "", } } else { let urlImagen = "url(https://github.com/OJP98/Lab6_TecnologiasWeb/blob/master/Images/" + this.props.card.id + ".png?raw=true)"; this.state.style ={ content: urlImagen, background: 'linear-gradient(312deg,
+            rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%', width: '100px', height: '140px', margin: '15px', display: 'flex', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', justifySelf: 'center', border: 'solid 4px black', borderRadius:
+            '15px', fontSize: '50px', lineHeight: '120px', cursor: 'pointer', color: 'white', } } return (
+            <div style={this.state.style} onClick={()=> this.clicked(this.props.card)}> ?
+            </div>
+            ) } } class Game extends React.Component { constructor(props) { super(props) this.state = { cards: [], selectedCards: [], } this.start(); } shuffle(array) { let currentIndex = array.length; let valorTemporal; let randomIndex; while (0 !== currentIndex)
+            { randomIndex = Math.floor(Math.random() * currentIndex); currentIndex -= 1; valorTemporal = array[currentIndex]; array[currentIndex] = array[randomIndex]; array[randomIndex] = valorTemporal; } return array; } handleClick(carta) { if (!carta.guessed
+            && this.state.selectedCards.length
+            <=1 ) { this.state.selectedCards.push(carta); if (this.state.selectedCards.length==2 ) this.verify(); } } // Metodo para verificar si ambas cartas son iguales verify() { let card1=t his.state.selectedCards[0];
+                let card2=t his.state.selectedCards[1]; if (card1.id==c ard2.id && card1.index !=c ard2.index) { guessedCards.push(card1,card2); card1.guessed=t rue; card2.guessed=t rue; console.log(guessedCards); } selectedCards=0 ; this.state.selectedCards=[
+                ]; if (guessedCards.length==1 0) { alert( "Ganaste!"); } } start() { const mobs=[ 'steve', 'pig', 'ghast', 'chicken', 'enderman']; let id=0 ; let index=0 ; mobs.forEach(card=> { let carta = { id: id, name: card, guessed: false, index: index, clicked: false, } let cartaClone = { id: id, name: card, guessed: false, index: index + 1, clicked: false, } id++; index += 2; this.state.cards.push(carta, cartaClone); });
+                this.state.cards = this.shuffle(this.state.cards); } render(){ const style = { backgroundColor: 'white', width: '600px', height: '800px', position: 'relative', display: 'grid', gridTemplateColumns: '20% 20% 20% 20% 20%', gridTemplateRows:
+                '20% 20% 20% 20% 20%' } return(
+                <div>
+                    <div style={style}>
+                        <Card key="1" card={this.state.cards[0]} click={()=> {this.handleClick(this.state.cards[0])}} selectedCards={this.state.selectedCards}/>
+                            <Card key="2" card={this.state.cards[1]} click={()=> {this.handleClick(this.state.cards[1])}} selectedCards={this.state.selectedCards}/>
+                                <Card key="3" card={this.state.cards[2]} click={()=> {this.handleClick(this.state.cards[2])}} selectedCards={this.state.selectedCards}/>
+                                    <Card key="4" card={this.state.cards[3]} click={()=> {this.handleClick(this.state.cards[3])}} selectedCards={this.state.selectedCards}/>
+                                        <Card key="5" card={this.state.cards[4]} click={()=> {this.handleClick(this.state.cards[4])}} selectedCards={this.state.selectedCards}/>
+                                            <Card key="6" card={this.state.cards[5]} click={()=> {this.handleClick(this.state.cards[5])}} selectedCards={this.state.selectedCards}/>
+                                                <Card key="7" card={this.state.cards[6]} click={()=> {this.handleClick(this.state.cards[6])}} selectedCards={this.state.selectedCards}/>
+                                                    <Card key="8" card={this.state.cards[7]} click={()=> {this.handleClick(this.state.cards[7])}} selectedCards={this.state.selectedCards}/>
+                                                        <Card key="9" card={this.state.cards[8]} click={()=> {this.handleClick(this.state.cards[8])}} selectedCards={this.state.selectedCards}/>
+                                                            <Card key="10" card={this.state.cards[9]} click={()=> {this.handleClick(this.state.cards[9])}} selectedCards={this.state.selectedCards}/>
+                    </div>
+                </div>
 
-        </div>
-        ) } } ReactDOM.render(
-        <Game />, document.getElementById('root') )
+                ) } } ReactDOM.render(
+                <Game />, document.getElementById('root') )
 
     </script>
 </body>
