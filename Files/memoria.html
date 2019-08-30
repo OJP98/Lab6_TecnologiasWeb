@@ -10,13 +10,11 @@
 <html lang="en">
 
 <head>
-    <title>Hello World!</title>
+    <title>Memoria Minecraft</title>
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-  
-    <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css">
+   
 </head>
 
 <body>
@@ -38,7 +36,7 @@
         {
           return(
             <div>
-              <p>Cantidad de movimientos: {this.props.clicks}</p>
+              <h3 style={{textAlign: 'center'}}>Cantidad de movimientos: {this.props.clicks}</h3>
             </div>
           )
         }
@@ -214,7 +212,7 @@
             }
             
             this.state.selectedCards = [];
-            if (guessedCards.length == 10)
+            if (guessedCards.length == 16)
             {
               setTimeout(() => {
                 alert("¡Ganaste! Juego terminado");
@@ -224,7 +222,7 @@
          
           start()
           {
-            const mobs = ['steve', 'pig', 'ghast', 'chicken', 'enderman'];
+            const mobs = ['steve', 'pig', 'ghast', 'chicken', 'enderman', 'skeleton', 'zombie_pigman', 'villager'];
             
             let id = 0;
             let index = 0;
@@ -258,11 +256,11 @@
           render(){
             const style = {
               width: '600px',
-              height: '500px',
+              height: '700px',
               position: 'relative',
               display: 'grid',
               gridTemplateColumns: '25% 25% 25% 25%',
-              gridTemplateRows: '33% 33% 33%'
+              gridTemplateRows: '25% 25% 25% 25%'
             }
             
             const flexStyle = {
@@ -300,6 +298,13 @@
                   <Card key="8" card={this.state.cards[7]} click={() => {this.handleClick(this.state.cards[7])}}  />
                   <Card key="9" card={this.state.cards[8]} click={() => {this.handleClick(this.state.cards[8])}}  />
                   <Card key="10" card={this.state.cards[9]} click={() => {this.handleClick(this.state.cards[9])}} />
+                  <Card key="11" card={this.state.cards[10]} click={() => {this.handleClick(this.state.cards[10])}} />
+                  <Card key="12" card={this.state.cards[11]} click={() => {this.handleClick(this.state.cards[11])}} />
+                  <Card key="13" card={this.state.cards[12]} click={() => {this.handleClick(this.state.cards[12])}} />
+                  <Card key="14" card={this.state.cards[13]} click={() => {this.handleClick(this.state.cards[13])}} />
+                  <Card key="15" card={this.state.cards[14]} click={() => {this.handleClick(this.state.cards[14])}} />
+                  <Card key="16" card={this.state.cards[15]} click={() => {this.handleClick(this.state.cards[15])}} />
+
                 </div>
               </div>
             </div>
